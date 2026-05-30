@@ -5,46 +5,46 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- أيقونة هوائي/رادار بسيطة -->
-    <!-- الدوائر -->
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="2.5"
-        android:pathData="M54,54 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
+        android:pathData="M54,24 a30,30 0 1,0 0.001,0 Z" />
+
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="2"
         android:strokeAlpha="0.6"
-        android:pathData="M54,54 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" />
+        android:pathData="M54,34 a20,20 0 1,0 0.001,0 Z" />
+
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="1.5"
         android:strokeAlpha="0.3"
-        android:pathData="M54,54 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+        android:pathData="M54,44 a10,10 0 1,0 0.001,0 Z" />
 
-    <!-- الخطوط العمودية والأفقية -->
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="1.5"
         android:strokeAlpha="0.4"
-        android:pathData="M54,24 L54,84 M24,54 L84,54" />
+        android:pathData="M54,24 L54,84" />
 
-    <!-- نقطة المركز -->
-    <circle
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.4"
+        android:pathData="M24,54 L84,54" />
+
+    <path
         android:fillColor="#FFFFFF"
-        android:cx="54"
-        android:cy="54"
-        android:r="4" />
+        android:pathData="M54,50 a4,4 0 1,0 0.001,0 Z" />
 
-    <!-- نقطة الإشارة -->
-    <circle
+    <path
         android:fillColor="#34D399"
-        android:cx="72"
-        android:cy="38"
-        android:r="5" />
+        android:pathData="M72,33 a5,5 0 1,0 0.001,0 Z" />
 
 </vector>
