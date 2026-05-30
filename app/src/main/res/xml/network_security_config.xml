@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ✅ ملف إعدادات أمان الشبكة
+    يسمح بحركة HTTP غير المشفرة على جميع نطاقات الشبكة المحلية
+    مهم جداً لأندرويد 9 (Pie) وما فوق
+-->
+<network-security-config>
+
+    <!-- السماح بـ HTTP بشكل كامل لأي domain -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- السماح الصريح بنطاقات الشبكة المحلية الشائعة -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.0.0</domain>
+        <domain includeSubdomains="true">192.168.1.0</domain>
+        <domain includeSubdomains="true">192.168.8.0</domain>
+        <domain includeSubdomains="true">10.0.0.0</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+
+</network-security-config>
