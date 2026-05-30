@@ -20,29 +20,37 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '8.2'
+      - name: Setup Android SDK
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "platform-tools"
 
-      - name: Cache Gradle packages
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: Cache Gradle
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-            ~/.android/build-cache
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Download Gradle 8.2
+        run: |
+          curl -fsSL "https://services.gradle.org/distributions/gradle-8.2-bin.zip" -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp/gradle-dist
+          GRADLE_BIN="/tmp/gradle-dist/gradle-8.2/bin/gradle"
+          chmod +x "$GRADLE_BIN"
+          echo "GRADLE_BIN=$GRADLE_BIN" >> $GITHUB_ENV
 
       - name: Build Debug APK
-        run: gradle assembleDebug --stacktrace --no-daemon
-        env:
-          ANDROID_HOME: ${{ env.ANDROID_HOME }}
+        run: $GRADLE_BIN assembleDebug --stacktrace --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -51,7 +59,5 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: Show result
-        run: |
-          echo "✅ APK built successfully!"
-          ls -lh app/build/outputs/apk/debug/
+      - name: Show APK info
+        run: ls -lh app/build/outputs/apk/debug/ || echo "APK not found"
