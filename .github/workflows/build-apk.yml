@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
+      - name: Setup Android SDK components
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
@@ -41,16 +41,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Download Gradle 8.2
-        run: |
-          curl -fsSL "https://services.gradle.org/distributions/gradle-8.2-bin.zip" -o /tmp/gradle.zip
-          unzip -q /tmp/gradle.zip -d /tmp/gradle-dist
-          GRADLE_BIN="/tmp/gradle-dist/gradle-8.2/bin/gradle"
-          chmod +x "$GRADLE_BIN"
-          echo "GRADLE_BIN=$GRADLE_BIN" >> $GITHUB_ENV
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: $GRADLE_BIN assembleDebug --stacktrace --no-daemon
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -60,4 +55,4 @@ jobs:
           retention-days: 30
 
       - name: Show APK info
-        run: ls -lh app/build/outputs/apk/debug/ || echo "APK not found"
+        run: ls -lh app/build/outputs/apk/debug/
